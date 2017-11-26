@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/reversi.iml" filepath="$PROJECT_DIR$/.idea/modules/reversi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reversi_main.iml" filepath="$PROJECT_DIR$/.idea/modules/reversi_main.iml" group="reversi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reversi_test.iml" filepath="$PROJECT_DIR$/.idea/modules/reversi_test.iml" group="reversi" />
     </modules>
   </component>
 </project>
