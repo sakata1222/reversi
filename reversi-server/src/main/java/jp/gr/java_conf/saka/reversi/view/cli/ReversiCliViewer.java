@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import jp.gr.java_conf.saka.reversi.game.ReversiBoard;
 import jp.gr.java_conf.saka.reversi.game.ReversiColor;
+import jp.gr.java_conf.saka.reversi.game.ReversiPosition;
 import jp.gr.java_conf.saka.reversi.game.ReversiResult;
 import jp.gr.java_conf.saka.reversi.view.IReversiViewer;
 
@@ -36,6 +37,11 @@ public class ReversiCliViewer implements IReversiViewer {
   }
 
   @Override
+  public void put(ReversiBoard board, ReversiPosition pos, ReversiColor color) {
+
+  }
+
+  @Override
   public void gameEnd(ReversiResult result) {
     System.out.println(result.getResultType());
     System.out.println(result.getPiecesCount());
@@ -44,5 +50,9 @@ public class ReversiCliViewer implements IReversiViewer {
   @Override
   public void displayMessage(String message) {
     System.out.println(message);
+  }
+
+  @Override
+  public void destroy() {
   }
 }

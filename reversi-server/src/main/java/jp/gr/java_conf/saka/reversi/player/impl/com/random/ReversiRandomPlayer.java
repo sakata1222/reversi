@@ -26,6 +26,11 @@ public class ReversiRandomPlayer implements IReversiPlayer {
   public ReversiPosition think(IReadOnlyReversiContext context) {
     List<ReversiPosition> candidates = context.getClonedGame().puttablePositions(playerColor);
     Collections.shuffle(candidates);
+    try {
+      Thread.sleep(1000L);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
     return candidates.get(0);
   }
 }

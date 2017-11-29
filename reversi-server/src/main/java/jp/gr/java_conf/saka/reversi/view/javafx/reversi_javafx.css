@@ -1,0 +1,14 @@
+.board-grid {
+    background-color: #336045;
+     -fx-background-color: #336045;
+}
+
+.black-piece {
+    fill:#000000;
+    -fx-fill:#000000;
+}
+
+.white-piece {
+    fill:#FFFFFF;
+    -fx-fill:#FFFFFF;
+}

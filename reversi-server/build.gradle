@@ -1,7 +1,9 @@
 group 'jp.gr.java_conf.saka'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "jp.gr.java_conf.saka.reversi.ReversiGameMain"
 
 sourceCompatibility = 1.8
 
@@ -12,3 +14,11 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+sourceSets.main.resources.srcDir 'src/main/java'
+task('fxCopy', type: Copy) {
+    from(file('srcDir'))
+    into(buildDir)
+    include('**/*.fxml', '**/*.css')
+}
+processResources.finalizedBy fxCopy

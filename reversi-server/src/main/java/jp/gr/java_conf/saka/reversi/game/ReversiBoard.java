@@ -51,6 +51,10 @@ public class ReversiBoard implements Cloneable {
     return Optional.ofNullable(getPiece(x, y)).map(ReversiPiece::getColor).orElse(null);
   }
 
+  public Optional<ReversiColor> getColorAsOptional(ReversiPosition position) {
+    return getColorAsOptional(position.getX(), position.getY());
+  }
+
   public Optional<ReversiColor> getColorAsOptional(int x, int y) {
     return getPieceAsOptional(x, y).map(p -> p.getColor());
   }

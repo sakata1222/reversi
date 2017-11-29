@@ -9,28 +9,30 @@ import jp.gr.java_conf.saka.reversi.game.ReversiPosition;
 import jp.gr.java_conf.saka.reversi.game.ReversiResult;
 import jp.gr.java_conf.saka.reversi.player.IReversiPlayer;
 import jp.gr.java_conf.saka.reversi.view.IReversiViewer;
-import jp.gr.java_conf.saka.reversi.view.cli.ReversiCliViewer;
 
 public class ReversiGameMaster {
 
   private ReversiGame game;
+  private IReversiViewer viewer;
   private Map<ReversiColor, IReversiPlayer> playerMap;
 
-  static ReversiGameMaster newGame(IReversiPlayer blackPlayer, IReversiPlayer whitePlayer) {
+  static ReversiGameMaster newGame(IReversiViewer viewer, IReversiPlayer blackPlayer,
+      IReversiPlayer whitePlayer) {
     Map<ReversiColor, IReversiPlayer> map = new HashMap<>();
     map.put(ReversiColor.BLACK, blackPlayer.init(ReversiColor.BLACK));
     map.put(ReversiColor.WHITE, whitePlayer.init(ReversiColor.WHITE));
-    return new ReversiGameMaster(ReversiGame.newGame(), map);
+    return new ReversiGameMaster(ReversiGame.newGame(), viewer, map);
   }
 
-  ReversiGameMaster(ReversiGame game,
+  ReversiGameMaster(ReversiGame game, IReversiViewer viewer,
       Map<ReversiColor, IReversiPlayer> playerMap) {
     this.game = game;
+    this.viewer = viewer;
     this.playerMap = playerMap;
   }
 
   void start() {
-    IReversiViewer viewer = new ReversiCliViewer();
+    viewer.init();
     ReversiColor currentColor = ReversiColor.BLACK;
     IReversiPlayer currentPlayer = playerMap.get(currentColor);
     ReversiPlayContext context = ReversiPlayContext.fixThinkingTime(game, 20);
@@ -42,6 +44,7 @@ public class ReversiGameMaster {
         ReversiPosition pos = currentPlayer.think(context.readOnly());
         viewer.displayMessage("Move:" + String.valueOf(pos));
         game.put(pos, currentColor);
+        viewer.put(game.getClonedBoard(), pos, currentColor);
       } else {
         viewer.displayMessage("Skip:" + currentColor);
       }
@@ -52,6 +55,7 @@ public class ReversiGameMaster {
     viewer.displayMessage("Game is End.");
     viewer.view(game.getClonedBoard());
     viewer.gameEnd(result);
+    viewer.destroy();
   }
 
   private ReversiColor nextColor(ReversiColor current) {

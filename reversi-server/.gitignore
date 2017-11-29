@@ -1,7 +1,10 @@
 
 
+build
+out
 
-
+.gradle
+!gradle-wrapper.jar
 
 ## definitions for IntelliJ
 
