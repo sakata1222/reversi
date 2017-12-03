@@ -11,6 +11,13 @@ public class ReversiRandomPlayer implements IReversiPlayer {
 
   private ReversiColor playerColor;
 
+  public static IReversiPlayer randomPlayer() {
+    return new ReversiRandomPlayer();
+  }
+
+  ReversiRandomPlayer() {
+  }
+
   @Override
   public String type() {
     return "Random";

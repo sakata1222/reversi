@@ -18,6 +18,7 @@ public class ReversiGameMaster {
 
   static ReversiGameMaster newGame(IReversiViewer viewer, IReversiPlayer blackPlayer,
       IReversiPlayer whitePlayer) {
+    viewer.init();
     Map<ReversiColor, IReversiPlayer> map = new HashMap<>();
     map.put(ReversiColor.BLACK, blackPlayer.init(ReversiColor.BLACK));
     map.put(ReversiColor.WHITE, whitePlayer.init(ReversiColor.WHITE));
@@ -32,7 +33,6 @@ public class ReversiGameMaster {
   }
 
   void start() {
-    viewer.init();
     ReversiColor currentColor = ReversiColor.BLACK;
     IReversiPlayer currentPlayer = playerMap.get(currentColor);
     ReversiPlayContext context = ReversiPlayContext.fixThinkingTime(game, 20);

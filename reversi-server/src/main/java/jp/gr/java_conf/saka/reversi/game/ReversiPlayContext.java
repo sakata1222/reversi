@@ -43,7 +43,7 @@ public class ReversiPlayContext {
 
     @Override
     public int getMaxThinkingTimeInSec() {
-      return this.getMaxThinkingTimeInSec();
+      return maxThinkingTimeInSec;
     }
   }
 }

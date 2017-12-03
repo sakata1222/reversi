@@ -1,28 +1,30 @@
 package jp.gr.java_conf.saka.reversi.view.javafx;
 
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import jp.gr.java_conf.saka.reversi.game.ReversiBoard;
 import jp.gr.java_conf.saka.reversi.game.ReversiColor;
 import jp.gr.java_conf.saka.reversi.game.ReversiPosition;
 import jp.gr.java_conf.saka.reversi.game.ReversiResult;
+import jp.gr.java_conf.saka.reversi.player.IReversiPositionInput;
 import jp.gr.java_conf.saka.reversi.view.IReversiViewer;
 
 public class ReversiJavaFxViewer implements IReversiViewer {
 
-  private ReversiApplication application;
+  private ReversiGameApplication application;
 
   @Override
   public void init() {
     Thread thread = new Thread(() -> {
       try {
-        ReversiApplication.launchApplication();
+        ReversiGameApplication.launchApplication();
       } catch (Throwable t) {
         t.printStackTrace();
       }
     });
     thread.setDaemon(true);
     thread.start();
-    while (!ReversiApplication.isJavaFxLaunched()) {
+    while (!ReversiGameApplication.isJavaFxLaunched()) {
       try {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
@@ -30,7 +32,12 @@ public class ReversiJavaFxViewer implements IReversiViewer {
         throw new RuntimeException(e);
       }
     }
-    application = ReversiApplication.getJavaFxLaunchedInstance();
+    application = ReversiGameApplication.getJavaFxLaunchedInstance();
+  }
+
+  @Override
+  public Supplier<IReversiPositionInput> newInputSupplier() {
+    return () -> application.newInput();
   }
 
   @Override

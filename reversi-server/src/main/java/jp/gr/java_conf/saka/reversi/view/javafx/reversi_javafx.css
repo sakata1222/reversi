@@ -1,6 +1,16 @@
+.header-area {
+    padding: 0px 0px 5px 5px;
+    -fx-padding: 0px 0px 5px 5px;
+}
+
 .board-grid {
     background-color: #336045;
-     -fx-background-color: #336045;
+    -fx-background-color: #336045;
+}
+
+.board-event-listen-node {
+    opacity:0;
+    -fx-opacity:0;
 }
 
 .black-piece {

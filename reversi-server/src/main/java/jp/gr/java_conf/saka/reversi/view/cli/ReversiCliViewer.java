@@ -1,11 +1,13 @@
 package jp.gr.java_conf.saka.reversi.view.cli;
 
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import jp.gr.java_conf.saka.reversi.game.ReversiBoard;
 import jp.gr.java_conf.saka.reversi.game.ReversiColor;
 import jp.gr.java_conf.saka.reversi.game.ReversiPosition;
 import jp.gr.java_conf.saka.reversi.game.ReversiResult;
+import jp.gr.java_conf.saka.reversi.player.IReversiPositionInput;
 import jp.gr.java_conf.saka.reversi.view.IReversiViewer;
 
 public class ReversiCliViewer implements IReversiViewer {
@@ -13,6 +15,11 @@ public class ReversiCliViewer implements IReversiViewer {
   @Override
   public void init() {
 
+  }
+
+  @Override
+  public Supplier<IReversiPositionInput> newInputSupplier() {
+    return () -> new ReversiCliInput();
   }
 
   @Override

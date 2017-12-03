@@ -1,6 +1,5 @@
 package jp.gr.java_conf.saka.reversi.view.javafx;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,17 +19,18 @@ import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import jp.gr.java_conf.saka.reversi.game.ReversiColor;
 import jp.gr.java_conf.saka.reversi.game.ReversiPosition;
+import jp.gr.java_conf.saka.reversi.player.IReversiPositionInput;
 
-@Deprecated
-public class ReversiApplication extends Application {
+public class ReversiGameApplication extends Application {
 
   private VBox root;
+  private ReversiGameAreaController gameAppController;
   private GridPane reversiBoard;
   private AtomicBoolean isStarted = new AtomicBoolean(false);
   private Map<ReversiPosition, Circle> pieces = new HashMap<>();
   private static final String JAVA_FX_THREAD_NAME_KEY = "JavaFX";
   private static final Map<ReversiColor, String> PIECE_CSS_CLASS_MAP;
-  private static final Map<String, ReversiApplication> INSTANCE_MAP;
+  private static final Map<String, ReversiGameApplication> INSTANCE_MAP;
 
   static {
     Map<ReversiColor, String> map = new HashMap<>();
@@ -41,10 +41,9 @@ public class ReversiApplication extends Application {
     INSTANCE_MAP = new ConcurrentHashMap<>();
   }
 
-  private static final String REVERSI_APP = "reversi_game_area.fxml";
-  private static final String REVERSI_GRID = "reversi_game_area.fxml";
+  private static final String REVERSI_GAME_AREA = "reversi_game_area.fxml";
 
-  static ReversiApplication getJavaFxLaunchedInstance() {
+  static ReversiGameApplication getJavaFxLaunchedInstance() {
     return INSTANCE_MAP.entrySet().stream()
         .filter(entry -> entry.getKey().contains(JAVA_FX_THREAD_NAME_KEY)).map(Entry::getValue)
         .findFirst()
@@ -52,7 +51,7 @@ public class ReversiApplication extends Application {
   }
 
   static boolean isJavaFxLaunched() {
-    ReversiApplication app = getJavaFxLaunchedInstance();
+    ReversiGameApplication app = getJavaFxLaunchedInstance();
     return Objects.nonNull(app) && app.isStarted();
   }
 
@@ -66,21 +65,28 @@ public class ReversiApplication extends Application {
   /**
    * This constructor is called from Application.launch by reflection.
    */
-  public ReversiApplication() {
+  public ReversiGameApplication() {
     INSTANCE_MAP.put(Thread.currentThread().getName(), this);
   }
 
   @Override
   public void start(Stage stage) throws Exception {
-    URL p = getClass().getResource(REVERSI_GRID);
-    root = FXMLLoader.load(getClass().getResource(REVERSI_GRID));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource(REVERSI_GAME_AREA));
+    root = loader.load();
+    gameAppController = loader.getController();
+
     Platform.runLater(() -> {
       reversiBoard = Objects.requireNonNull(GridPane.class.cast(root.lookup("#reversiBoardGrid")));
+      stage.sizeToScene();
     });
     Scene scene = new Scene(root);
     stage.setScene(scene);
     isStarted.set(true);
     stage.show();
+  }
+
+  IReversiPositionInput newInput() {
+    return gameAppController.newInput();
   }
 
   boolean isStarted() {
