@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -38,6 +39,8 @@ public class ReversiGameAreaController implements Initializable {
   private Map<ReversiPosition, Circle> pieces = new HashMap<>();
   @FXML
   private GridPane reversiBoardGrid;
+  @FXML
+  private TextArea reversiInfoTextArea;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -65,7 +68,7 @@ public class ReversiGameAreaController implements Initializable {
 
   void putPiece(ReversiPosition position, ReversiColor color) {
     if (pieces.containsKey(position)) {
-      changeColor(pieces.get(position), color);
+      JavaFxPlatformAccessUtils.runSync(() -> changeColor(pieces.get(position), color));
     } else {
       Circle piece = newPiece(color);
       pieces.put(position, piece);
@@ -92,6 +95,10 @@ public class ReversiGameAreaController implements Initializable {
 
   IReversiPositionInput newInput() {
     return new ReversiFxInput();
+  }
+
+  void setMessage(String text) {
+    JavaFxPlatformAccessUtils.runSync(() -> reversiInfoTextArea.setText(text));
   }
 
   class ReversiFxInput implements IReversiPositionInput {

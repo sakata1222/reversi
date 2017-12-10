@@ -81,4 +81,8 @@ public class ReversiGameApplication extends Application {
   void putPiece(ReversiPosition position, ReversiColor color) {
     gameAppController.putPiece(position, color);
   }
+
+  void displayMessage(String msg) {
+    gameAppController.setMessage(msg);
+  }
 }

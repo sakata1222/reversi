@@ -53,17 +53,12 @@ public class ReversiJavaFxViewer implements IReversiViewer {
 
   @Override
   public void onTurn(ReversiColor color) {
-
+    application.displayMessage(String.valueOf(color));
   }
 
   @Override
   public void put(ReversiBoard board, ReversiPosition pos, ReversiColor color) {
     application.putPiece(pos, color);
-    try {
-      Thread.sleep(500L);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
@@ -73,7 +68,7 @@ public class ReversiJavaFxViewer implements IReversiViewer {
 
   @Override
   public void displayMessage(String message) {
-
+    application.displayMessage(message);
   }
 
   @Override

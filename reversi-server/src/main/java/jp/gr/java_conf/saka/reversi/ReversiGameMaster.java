@@ -48,6 +48,7 @@ public class ReversiGameMaster {
       } else {
         viewer.displayMessage("Skip:" + currentColor);
       }
+      sleep(500);
       result = game.getResult();
       currentColor = nextColor(currentColor);
       currentPlayer = playerMap.get(currentColor);
@@ -63,6 +64,14 @@ public class ReversiGameMaster {
       return ReversiColor.BLACK;
     } else {
       return ReversiColor.WHITE;
+    }
+  }
+
+  private void sleep(long millsec) {
+    try {
+      Thread.sleep(millsec);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 }
