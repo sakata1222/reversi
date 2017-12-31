@@ -11,7 +11,7 @@ public class ReversiGameMain {
       IReversiViewer viewer = new ReversiJavaFxViewer();
       ReversiGameMaster gameMaster = ReversiGameMaster
           .newGame(viewer, ReversiPlayers.human(viewer.newInputSupplier()),
-              ReversiPlayers.random());
+              ReversiPlayers.mcts());
       gameMaster.start();
     } catch (Throwable t) {
       t.printStackTrace();

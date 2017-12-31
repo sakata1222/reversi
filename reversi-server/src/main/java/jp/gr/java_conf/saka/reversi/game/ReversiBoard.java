@@ -40,7 +40,7 @@ public class ReversiBoard implements Cloneable {
 
   boolean isOppositeColor(int x, int y, ReversiColor color) {
     throwExceptionIfOutOfBoard(x, y);
-    return color.isOpositeColor(getColor(x, y));
+    return color.isOppositeColor(getColor(x, y));
   }
 
   ReversiColor getColor(ReversiPosition position) {
@@ -94,7 +94,7 @@ public class ReversiBoard implements Cloneable {
   }
 
   void reverse(ReversiPosition position, ReversiColor color) {
-    if (color.isOpositeColor(getColor(position))) {
+    if (color.isOppositeColor(getColor(position))) {
       this.pieces[position.getY()][position.getX()] = ReversiPiece.newPiece(color);
     } else {
       throw new IllegalArgumentException(position + " is not reversible. color = " + color);

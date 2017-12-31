@@ -17,7 +17,7 @@ public enum ReversiColor {
     return this == color;
   }
 
-  boolean isOpositeColor(ReversiColor color) {
+  boolean isOppositeColor(ReversiColor color) {
     return Objects.nonNull(color) && this != color;
   }
 
