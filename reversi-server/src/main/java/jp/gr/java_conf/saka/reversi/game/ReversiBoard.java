@@ -1,5 +1,6 @@
 package jp.gr.java_conf.saka.reversi.game;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -113,11 +114,10 @@ public class ReversiBoard implements Cloneable {
   public ReversiBoard clone() {
     try {
       ReversiBoard cloned = ReversiBoard.class.cast(super.clone());
-      cloned.pieces = new ReversiPiece[size][size];
+      cloned.pieces = new ReversiPiece[size][];
       for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-          cloned.pieces[i][j] = this.pieces[i][j]; // ReversiPiece is immutable.
-        }
+        // ReversiPiece is immutable, so shallow copy is enough.
+        cloned.pieces[i] = Arrays.copyOf(this.pieces[i], this.pieces[i].length);
       }
       return cloned;
     } catch (CloneNotSupportedException e) {
