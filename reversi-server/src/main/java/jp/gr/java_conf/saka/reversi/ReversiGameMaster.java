@@ -35,7 +35,7 @@ public class ReversiGameMaster {
   void start() {
     ReversiColor currentColor = ReversiColor.BLACK;
     IReversiPlayer currentPlayer = playerMap.get(currentColor);
-    ReversiPlayContext context = ReversiPlayContext.fixThinkingTime(game, 20);
+    ReversiPlayContext context = ReversiPlayContext.fixedThinkingTime(game, 20);
     ReversiResult result = game.getResult();
     while (!result.isGameEnd()) {
       viewer.onTurn(currentColor);

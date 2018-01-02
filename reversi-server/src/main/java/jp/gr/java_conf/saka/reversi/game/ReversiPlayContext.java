@@ -5,7 +5,7 @@ public class ReversiPlayContext {
   private ReversiGame game;
   private int maxThinkingTimeInSec;
 
-  public static ReversiPlayContext fixThinkingTime(ReversiGame game, int maxThinkingTimeInSec) {
+  public static ReversiPlayContext fixedThinkingTime(ReversiGame game, int maxThinkingTimeInSec) {
     return new ReversiPlayContext(game, maxThinkingTimeInSec);
   }
 

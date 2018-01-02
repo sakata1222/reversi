@@ -63,7 +63,7 @@ public class ReversiJavaFxViewer implements IReversiViewer {
 
   @Override
   public void gameEnd(ReversiResult result) {
-
+    application.displayMessage(String.valueOf(result.getResultType()));
   }
 
   @Override
@@ -73,6 +73,14 @@ public class ReversiJavaFxViewer implements IReversiViewer {
 
   @Override
   public void destroy() {
+    // TODO wait close button is clicked.
+    try {
+      Thread.sleep(5000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+
     //Platform.exit();
   }
 }
