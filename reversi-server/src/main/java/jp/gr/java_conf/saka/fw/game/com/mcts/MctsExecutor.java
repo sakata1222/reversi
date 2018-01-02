@@ -1,6 +1,5 @@
 package jp.gr.java_conf.saka.fw.game.com.mcts;
 
-import java.util.Comparator;
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
 import jp.gr.java_conf.saka.fw.game.com.mcts.IMctsPlayOutExecutor.PlayOutResult;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.IMctsNodeSelector;
@@ -36,7 +35,8 @@ public class MctsExecutor<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> 
     return new MctsExecutor<>(
         playerColor,
         maxTotalTries,
-        5,
+        /* 38 is chosen by http://www.kochi-tech.ac.jp/library/ron/pdf/2016/13/1170339.pdf */
+        38,
         MctsNodeSelectorUctImpl.newDefaultInstance(),
         playOutExecutor
     );
@@ -54,13 +54,12 @@ public class MctsExecutor<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> 
         playOutAndPropagate(candidate);
       }
     }
-    return root.getChildren().stream()
-        .sorted(Comparator.comparingInt(child -> child.getTotalTries())).findFirst().get()
-        .getMove();
+    MctsNode<GAME, MOVE> decided = new MctsResultDecider().decide(root.getChildren());
+    return decided.getMove();
   }
 
   private int expandAndPlayOut(MctsNode<GAME, MOVE> target) {
-    target.expandNode().forEach(this::playOutAndPropagate);
+    target.expandNode().stream().parallel().forEach(this::playOutAndPropagate);
     return target.getChildren().size();
   }
 

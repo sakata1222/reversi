@@ -1,13 +1,15 @@
 package jp.gr.java_conf.saka.fw.game.com.mcts;
 
-public class MctsNodeResult implements Cloneable {
+import java.util.concurrent.atomic.AtomicInteger;
 
-  int total;
-  int wins;
+public class MctsNodeResult {
+
+  private AtomicInteger total;
+  private AtomicInteger wins;
 
   MctsNodeResult() {
-    total = 0;
-    wins = 0;
+    total = new AtomicInteger(0);
+    wins = new AtomicInteger(0);
   }
 
   MctsNodeResult win() {
@@ -20,33 +22,22 @@ public class MctsNodeResult implements Cloneable {
 
   MctsNodeResult addResult(boolean isWon) {
     if (isWon) {
-      wins++;
+      wins.incrementAndGet();
     }
-    total++;
+    total.incrementAndGet();
     return this;
   }
 
   public int getTotal() {
-    return total;
+    return total.intValue();
   }
 
   public int getWins() {
-    return wins;
+    return wins.intValue();
   }
 
   public double rate() {
-    return wins / total;
+    return (double) wins.intValue() / (double) total.intValue();
   }
 
-  @Override
-  public MctsNodeResult clone() {
-    try {
-      MctsNodeResult cloned = MctsNodeResult.class.cast(super.clone());
-      cloned.total = this.total;
-      cloned.wins = this.wins;
-      return cloned;
-    } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
-    }
-  }
 }

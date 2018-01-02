@@ -45,7 +45,7 @@ public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
   }
 
   IMctsGame getClonedGame() {
-    return game;
+    return game.clone();
   }
 
   GamePlayerColor getNextColor() {
