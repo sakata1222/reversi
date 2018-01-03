@@ -41,7 +41,7 @@ public class MctsNodeSelectorUctImpl implements IMctsNodeSelector {
         .sorted(Comparator.<MctsNode<?, ?>>comparingDouble(node -> {
           double ucbValue =
               node.getWinRate() + c * (Math
-                  .sqrt(2 * Math.log(childrenTotal) / node.getTotalTries()));
+                  .sqrt(2.0d * Math.log((double) childrenTotal) / (double) node.getTotalTries()));
           return ucbValue;
         }).reversed()).findFirst().get();
     if (candidateNode.hasChild()) {
