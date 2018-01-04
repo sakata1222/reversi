@@ -46,7 +46,8 @@ public class ReversiRule {
         reverseLine(board, position, color, increment, decrement),
         reverseLine(board, position, color, increment, keep),
         reverseLine(board, position, color, increment, increment)//
-    ).parallel();
+    ).sequential();
+    // do not use the parallel stream, because parallel stream is not effective this case.
   }
 
   private int reverseLine(ReversiBoard board, ReversiPosition putPosition, ReversiColor color,

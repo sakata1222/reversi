@@ -9,9 +9,14 @@ import jp.gr.java_conf.saka.reversi.player.IReversiPlayer;
 public class ReversiMctsPlayer implements IReversiPlayer {
 
   private ReversiColor playerColor;
+  private int maxTotalTries;
 
-  public static ReversiMctsPlayer mctsPlayer() {
-    return new ReversiMctsPlayer();
+  public static ReversiMctsPlayer mctsPlayer(int maxTotalTries) {
+    return new ReversiMctsPlayer(maxTotalTries);
+  }
+
+  ReversiMctsPlayer(int maxTotalTries) {
+    this.maxTotalTries = maxTotalTries;
   }
 
   @Override
@@ -29,7 +34,7 @@ public class ReversiMctsPlayer implements IReversiPlayer {
   public ReversiPosition think(IReadOnlyReversiContext context) {
     MctsExecutor<MctsReversiGame, MctsReversiMove> executor =
         MctsExecutor
-            .newDefaultInstance(MctsReversiColorDictionary.resolve(playerColor), 500,
+            .newDefaultInstance(MctsReversiColorDictionary.resolve(playerColor), maxTotalTries,
                 new MctsReversiRandomPlayOutExecutor(playerColor));
     MctsReversiMove move = executor.execute(MctsReversiGame.wrap(context.getClonedGame()));
     return move.getPosition();

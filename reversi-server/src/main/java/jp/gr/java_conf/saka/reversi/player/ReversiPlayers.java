@@ -15,7 +15,7 @@ public class ReversiPlayers {
     return ReversiRandomPlayer.randomPlayer();
   }
 
-  public static IReversiPlayer mcts() {
-    return ReversiMctsPlayer.mctsPlayer();
+  public static IReversiPlayer mcts(int maxTotalTries) {
+    return ReversiMctsPlayer.mctsPlayer(maxTotalTries);
   }
 }
