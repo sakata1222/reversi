@@ -80,4 +80,8 @@ public class ReversiGame implements Cloneable {
   public ReversiBoard getClonedBoard() {
     return board.clone();
   }
+
+  public boolean isSameState(ReversiGame otherGame) {
+    return this.board.isSameState(otherGame.board);
+  }
 }

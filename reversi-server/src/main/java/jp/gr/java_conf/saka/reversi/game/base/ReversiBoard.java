@@ -137,4 +137,15 @@ public class ReversiBoard implements Cloneable {
     }
     return builder.toString();
   }
+
+  public boolean isSameState(ReversiBoard otherBoard) {
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        if (!Objects.equals(this.pieces[i][j], otherBoard.pieces[i][j])) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 }

@@ -10,4 +10,6 @@ public interface IMctsGame<MOVE extends IMctsMove> extends Cloneable {
   IMctsGame clone();
 
   void put(MOVE move, GamePlayerColor childColor);
+
+  boolean isSameState(IMctsGame<MOVE> otherGame);
 }

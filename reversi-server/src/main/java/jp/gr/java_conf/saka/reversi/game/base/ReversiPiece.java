@@ -15,4 +15,23 @@ public class ReversiPiece {
   ReversiColor getColor() {
     return color;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    ReversiPiece that = (ReversiPiece) o;
+
+    return color == that.color;
+  }
+
+  @Override
+  public int hashCode() {
+    return color != null ? color.hashCode() : 0;
+  }
 }

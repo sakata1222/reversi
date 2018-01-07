@@ -12,8 +12,12 @@ public class ReversiPlayerManager {
   public static ReversiPlayerManager newInstanceForSimulate() {
     return new ReversiPlayerManager(ImmutableList.of(
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.random()),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mcts(500)),
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mcts(1000)),
-        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mcts(2000))
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mcts(2000)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(500)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(1000)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(2000))
     ));
   }
 

@@ -46,7 +46,39 @@ public class ReversiBoardTest {
     assertThat(cloned.getColorAsOptional(4, 1), is(Optional.empty()));
     assertThat(cloned.getColorAsOptional(2, 5), is(Optional.empty()));
     assertThat(cloned.getColorAsOptional(7, 7), is(Optional.empty()));
+  }
 
+  @Test
+  public void test_isSameState() {
+    ReversiBoard board = new ReversiBoard(8);
+    board.put(0, 0, ReversiColor.BLACK);
+    board.put(1, 4, ReversiColor.WHITE);
+    board.put(5, 2, ReversiColor.BLACK);
+    board.put(6, 6, ReversiColor.WHITE);
 
+    ReversiBoard other = new ReversiBoard(8);
+    other.put(0, 0, ReversiColor.BLACK);
+    other.put(1, 4, ReversiColor.WHITE);
+    other.put(5, 2, ReversiColor.BLACK);
+    other.put(6, 6, ReversiColor.WHITE);
+
+    assertThat(board.isSameState(other), is(true));
+  }
+
+  @Test
+  public void test_isSameState_return_false() {
+    ReversiBoard board = new ReversiBoard(8);
+    board.put(0, 0, ReversiColor.BLACK);
+    board.put(1, 4, ReversiColor.WHITE);
+    board.put(5, 2, ReversiColor.BLACK);
+    board.put(6, 6, ReversiColor.WHITE);
+
+    ReversiBoard other = new ReversiBoard(8);
+    other.put(0, 0, ReversiColor.BLACK);
+    other.put(1, 4, ReversiColor.WHITE);
+    other.put(5, 2, ReversiColor.BLACK);
+    other.put(6, 5, ReversiColor.WHITE);
+
+    assertThat(board.isSameState(other), is(false));
   }
 }

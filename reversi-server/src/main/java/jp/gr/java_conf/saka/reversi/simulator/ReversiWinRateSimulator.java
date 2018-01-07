@@ -1,5 +1,7 @@
 package jp.gr.java_conf.saka.reversi.simulator;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 import jp.gr.java_conf.saka.reversi.game.ReversiGameMaster;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiResult;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiResult.ReversiResultType;
@@ -11,14 +13,16 @@ import jp.gr.java_conf.saka.reversi.game.view.empty.ReversiEmptyViewer;
 public class ReversiWinRateSimulator {
 
   private IReversiSimulatorViewer viewer;
+  private boolean parallelExecution;
 
   public static ReversiWinRateSimulator newInstance(IReversiSimulatorViewer viewer) {
-    return new ReversiWinRateSimulator(viewer);
+    return new ReversiWinRateSimulator(viewer, true);
   }
 
-  ReversiWinRateSimulator(
-      IReversiSimulatorViewer viewer) {
+  public ReversiWinRateSimulator(
+      IReversiSimulatorViewer viewer, boolean parallelExecution) {
     this.viewer = viewer;
+    this.parallelExecution = parallelExecution;
   }
 
   public void simulate(ReversiPlayerManager playerManager) {
@@ -29,22 +33,31 @@ public class ReversiWinRateSimulator {
 
     ReversiWinRateSimulateResult result = new ReversiWinRateSimulateResult(playerAFactory.type(),
         playerBFactory.type());
-    boolean isPlayerAFirst = true;
-    for (int i = 0; i < numOfTests; i++) {
-      ReversiGameMaster game = newGame(isPlayerAFirst, playerAFactory.newPlayer(),
+    AtomicBoolean isPlayerAFirst = new AtomicBoolean(true);
+    createSimulationStream(numOfTests).forEach(i -> {
+      boolean localIsPlayerAFirst = isPlayerAFirst.getAndSet(!isPlayerAFirst.get());
+      ReversiGameMaster game = newGame(localIsPlayerAFirst, playerAFactory.newPlayer(),
           playerBFactory.newPlayer());
       ReversiResult gameResult = game.start();
-      addResult(isPlayerAFirst, gameResult, result);
+      addResult(localIsPlayerAFirst, gameResult, result);
       viewer.viewProgress(i, result);
-    }
+    });
     viewer.viewResult(result);
-    return;
+  }
+
+  private IntStream createSimulationStream(int numOfTests) {
+    IntStream simulationStream = IntStream.range(0, numOfTests);
+    if (parallelExecution) {
+      return simulationStream.parallel();
+    } else {
+      return simulationStream.sequential();
+    }
   }
 
   private ReversiGameMaster newGame(boolean isPlayerAFirst, IReversiPlayer playerA,
       IReversiPlayer playerB) {
-    IReversiPlayer black = null;
-    IReversiPlayer white = null;
+    IReversiPlayer black;
+    IReversiPlayer white;
     if (isPlayerAFirst) {
       black = playerA;
       white = playerB;
