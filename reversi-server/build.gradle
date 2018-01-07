@@ -26,3 +26,14 @@ task('fxCopy', type: Copy) {
     include('**/*.fxml', '**/*.css')
 }
 processResources.finalizedBy fxCopy
+
+task simulate(dependsOn: build) {
+    doLast {
+        mainClassName = "jp.gr.java_conf.saka.reversi.ReversiSimulateMain"
+    }
+}
+simulate.finalizedBy run
+
+run {
+    standardInput = System.in
+}
