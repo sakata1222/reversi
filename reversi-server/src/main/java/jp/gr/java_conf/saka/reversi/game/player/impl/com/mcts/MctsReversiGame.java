@@ -38,6 +38,15 @@ public class MctsReversiGame implements
     game.put(move.getPosition(), MctsReversiColorDictionary.resolve(childColor));
   }
 
+  @Override
+  public boolean isSameState(IMctsGame<MctsReversiMove> otherGame) {
+    if (MctsReversiGame.class != otherGame.getClass()) {
+      return false;
+    }
+    MctsReversiGame castedOtherGame = MctsReversiGame.class.cast(otherGame);
+    return this.game.isSameState(castedOtherGame.game);
+  }
+
   ReversiGame getGame() {
     return game;
   }

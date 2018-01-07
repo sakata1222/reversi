@@ -69,6 +69,9 @@ public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
   }
 
   public List<MctsNode<GAME, MOVE>> expandNode() {
+    if (hasChild()) {
+      throw new IllegalStateException("This node has child already ");
+    }
     if (expandNode(nextColor)) {
       // OK
       return this.getChildren();
@@ -108,7 +111,15 @@ public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
     return CollectionUtils.isNotEmpty(children);
   }
 
+  public boolean isSameState(GAME otherGame) {
+    return this.game.isSameState(otherGame);
+  }
+
   boolean overNumOfPlayOutThreshold(int threshold) {
     return getResult().getTotal() > threshold;
+  }
+
+  void markAsRoot() {
+    this.parent = null;
   }
 }

@@ -13,7 +13,7 @@ public class ReversiGameMain {
       ReversiGameMaster gameMaster = ReversiGameMaster.newGame(
           viewer,
           ReversiPlayers.human(viewer.newInputSupplier()),
-          ReversiPlayers.mcts(1000));
+          ReversiPlayers.mctsReuse(1000));
       gameMaster.start();
     } catch (Throwable t) {
       t.printStackTrace();
