@@ -1,7 +1,7 @@
 # reversi
 
 This repository for creating Reversi game and players.
-The following AI player are implemented:
+The following AI players are implemented:
 - Random Player
 - Monte Carlo Tree Search Player
 
