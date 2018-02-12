@@ -1,4 +1,4 @@
-package jp.gr.java_conf.saka.reversi.game.player.impl.com.mcts;
+package jp.gr.java_conf.saka.reversi.game.player.impl.com.fw;
 
 import com.google.common.collect.ImmutableMap;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiColor;
 
-public class MctsReversiColorDictionary {
+public class ReversiColorDictionary {
 
   private static final Map<GamePlayerColor, ReversiColor> DIC = ImmutableMap.<GamePlayerColor, ReversiColor>builder()
       .put(GamePlayerColor.FIRST, ReversiColor.BLACK)

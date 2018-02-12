@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
+import jp.gr.java_conf.saka.fw.game.base.IGame;
+import jp.gr.java_conf.saka.fw.game.base.IGameMove;
 import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * Node for Monte Carlo Tree Search
  */
-public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
+public class MctsNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
 
   private GAME game;
   private GamePlayerColor nextColor;
@@ -18,12 +20,12 @@ public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
   private List<MctsNode<GAME, MOVE>> children;
   private MctsNodeResult result;
 
-  static <GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> MctsNode<GAME, MOVE> root(GAME game,
+  static <GAME extends IGame<MOVE>, MOVE extends IGameMove> MctsNode<GAME, MOVE> root(GAME game,
       GamePlayerColor nextColor) {
     return new MctsNode<>(game, nextColor, null, null, new ArrayList<>(), new MctsNodeResult());
   }
 
-  static <GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> MctsNode<GAME, MOVE> child(
+  static <GAME extends IGame<MOVE>, MOVE extends IGameMove> MctsNode<GAME, MOVE> child(
       MctsNode parent,
       MOVE move, GamePlayerColor childColor) {
     @SuppressWarnings("unchecked")
@@ -44,7 +46,7 @@ public class MctsNode<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> {
     this.result = result;
   }
 
-  IMctsGame getClonedGame() {
+  IGame getClonedGame() {
     return game.clone();
   }
 

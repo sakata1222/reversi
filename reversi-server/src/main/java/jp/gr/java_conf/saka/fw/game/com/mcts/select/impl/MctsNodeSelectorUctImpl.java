@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import jp.gr.java_conf.saka.fw.game.com.mcts.IMctsGame;
-import jp.gr.java_conf.saka.fw.game.com.mcts.IMctsMove;
+import jp.gr.java_conf.saka.fw.game.base.IGame;
+import jp.gr.java_conf.saka.fw.game.base.IGameMove;
 import jp.gr.java_conf.saka.fw.game.com.mcts.MctsNode;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.IMctsNodeSelector;
 
@@ -27,7 +27,7 @@ public class MctsNodeSelectorUctImpl implements IMctsNodeSelector {
   }
 
   @Override
-  public <GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> MctsNode<GAME, MOVE> select(
+  public <GAME extends IGame<MOVE>, MOVE extends IGameMove> MctsNode<GAME, MOVE> select(
       List<MctsNode<GAME, MOVE>> children) {
     int childrenTotal = children.stream()
         .mapToInt(MctsNode::getTotalTries).sum();

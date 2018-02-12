@@ -28,19 +28,18 @@ public class ReversiGame implements Cloneable {
     boolean isGameEnd = Arrays.stream(ReversiColor.values()).parallel()
         .noneMatch(color -> hasMove(color));
     ReversiResultBuilder builder = ReversiResult.builder();
+    int size = board.getSize();
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        board.getColorAsOptional(j, i).ifPresent(c -> builder.addPieceCount(c));
+      }
+    }
     if (isGameEnd) {
       builder.gameEnd();
-      int size = board.getSize();
-      for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-          board.getColorAsOptional(j, i).ifPresent(c -> builder.addPieceCount(c));
-        }
-      }
-      return builder.build();
     } else {
       builder.notGameEnd();
-      return builder.build();
     }
+    return builder.build();
   }
 
   public boolean hasMove(ReversiColor color) {
