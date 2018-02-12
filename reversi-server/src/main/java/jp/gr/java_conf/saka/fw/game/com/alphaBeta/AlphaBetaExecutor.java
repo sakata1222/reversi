@@ -28,6 +28,17 @@ public class AlphaBetaExecutor<GAME extends IGame<MOVE>, MOVE extends IGameMove>
 
   @Override
   public MOVE execute(GAME game) {
+    AlphaBetaGameNode<GAME, MOVE> root = AlphaBetaGameNode.root(playerColor, game,
+        playerColor.nextPlayer(), null, evaluateFunction);
+    root.expandChildren(depth);
+    return root.getChildren().stream()
+        .sorted(Comparator.<AlphaBetaGameNode<GAME, MOVE>>comparingLong(
+            AlphaBetaGameNode::getEvaluationValue)
+            .reversed()).findFirst().map(AlphaBetaGameNode::getLastMove).get();
+  }
+
+  @SuppressWarnings("unused")
+  private MOVE minMax(GAME game) {
     MinMaxGameNode<GAME, MOVE> root = new MinMaxGameNode<>(playerColor, game,
         playerColor.nextPlayer(), null, evaluateFunction);
     root.expandChildren(depth);
@@ -35,5 +46,6 @@ public class AlphaBetaExecutor<GAME extends IGame<MOVE>, MOVE extends IGameMove>
     return root.getChildren().stream()
         .sorted(Comparator.<MinMaxGameNode<?, ?>>comparingLong(MinMaxGameNode::calcEvaluationValue)
             .reversed()).findFirst().map(MinMaxGameNode::getLastMove).get();
+
   }
 }

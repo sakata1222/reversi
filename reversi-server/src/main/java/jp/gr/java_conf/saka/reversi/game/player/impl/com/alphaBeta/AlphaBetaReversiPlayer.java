@@ -32,7 +32,7 @@ public class AlphaBetaReversiPlayer implements IReversiPlayer {
 
   @Override
   public String type() {
-    return "Alpha-Beta (" + depth + ")";
+    return "Alpha-Beta " + evaluationFunction.getClass().getSimpleName() + " (" + depth + ")";
   }
 
   @Override
