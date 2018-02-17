@@ -3,6 +3,8 @@ package jp.gr.java_conf.saka.reversi.game.base;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiResult.ReversiResultBuilder;
 
 public class ReversiGame implements Cloneable {
@@ -40,6 +42,14 @@ public class ReversiGame implements Cloneable {
       builder.notGameEnd();
     }
     return builder.build();
+  }
+
+  public Map<ReversiColor, AtomicInteger> countNumOfPieces() {
+    return this.board.countNumOfPieces();
+  }
+
+  public int getSize() {
+    return this.board.getSize();
   }
 
   public boolean hasMove(ReversiColor color) {
