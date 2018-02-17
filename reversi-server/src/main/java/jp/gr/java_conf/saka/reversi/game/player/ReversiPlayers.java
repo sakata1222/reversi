@@ -2,6 +2,7 @@ package jp.gr.java_conf.saka.reversi.game.player;
 
 import java.util.function.Supplier;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.alphaBeta.AlphaBetaReversiPlayer;
+import jp.gr.java_conf.saka.reversi.game.player.impl.com.custom.ReversiCustomPlayer;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.fw.eval.ReversiStatusEvaluationFunctionNumOfFixedPieceImpl;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.fw.eval.ReversiStatusEvaluationFunctionNumOfPieceImpl;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.mcts.ReversiMctsPlayer;
@@ -36,5 +37,9 @@ public class ReversiPlayers {
   public static IReversiPlayer fixedPieceBasedAlphaBeta(int depth) {
     return AlphaBetaReversiPlayer
         .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), depth);
+  }
+
+  public static IReversiPlayer custom() {
+    return ReversiCustomPlayer.newInstance();
   }
 }

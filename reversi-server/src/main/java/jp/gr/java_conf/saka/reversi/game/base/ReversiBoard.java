@@ -1,8 +1,11 @@
 package jp.gr.java_conf.saka.reversi.game.base;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReversiBoard implements Cloneable {
 
@@ -104,6 +107,19 @@ public class ReversiBoard implements Cloneable {
 
   public int getSize() {
     return size;
+  }
+
+  Map<ReversiColor, AtomicInteger> countNumOfPieces() {
+    Map<ReversiColor, AtomicInteger> result = new HashMap<>();
+    Arrays.stream(ReversiColor.values()).forEach(c -> result.put(c, new AtomicInteger(0)));
+    for (int i = 0; i < size; i++) {
+      for (int j = 0; j < size; j++) {
+        if (Objects.nonNull(this.pieces[i][j])) {
+          result.get(this.pieces[i][j].getColor()).incrementAndGet();
+        }
+      }
+    }
+    return result;
   }
 
   ReversiPiece[][] getPieces() {
