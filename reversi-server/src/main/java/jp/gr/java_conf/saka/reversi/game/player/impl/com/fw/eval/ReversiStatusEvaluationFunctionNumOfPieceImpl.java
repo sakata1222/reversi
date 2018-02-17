@@ -15,7 +15,11 @@ public class ReversiStatusEvaluationFunctionNumOfPieceImpl implements
   @Override
   public long evaluate(GamePlayerColor playerColor, ReversiGameWrapper game) {
     ReversiResult result = game.getGame().getResult();
-    return result.getPiecesCount().getOrDefault(ReversiColorDictionary.resolve(playerColor), ZERO)
+    int ownCount = result.getPiecesCount()
+        .getOrDefault(ReversiColorDictionary.resolve(playerColor), ZERO)
         .get();
+    int againstCount = result.getPiecesCount()
+        .getOrDefault(ReversiColorDictionary.resolve(playerColor.nextPlayer()), ZERO).get();
+    return ownCount - againstCount;
   }
 }
