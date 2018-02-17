@@ -24,7 +24,16 @@ public class ReversiPlayerManager {
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(4)),
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(5)),
         ReversiPlayerFactoryGeneralImpl
+            .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(1)),
+        ReversiPlayerFactoryGeneralImpl
+            .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(2)),
+        ReversiPlayerFactoryGeneralImpl
+            .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(3)),
+        ReversiPlayerFactoryGeneralImpl
+            .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(4)),
+        ReversiPlayerFactoryGeneralImpl
             .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(5))
+
     ));
   }
 
