@@ -20,7 +20,7 @@ public class ReversiCustomPlayer implements IReversiPlayer {
   public static ReversiCustomPlayer newInstance() {
     return new ReversiCustomPlayer(//
         AlphaBetaReversiPlayer
-            .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), 5),
+            .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), 7),
         AlphaBetaReversiPlayer
             .newInstance(new ReversiStatusEvaluationFunctionNumOfPieceImpl(), 12));
   }
