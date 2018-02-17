@@ -17,7 +17,14 @@ public class ReversiPlayerManager {
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mcts(2000)),
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(500)),
         ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(1000)),
-        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(2000))
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.mctsReuse(2000)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(1)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(2)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(3)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(4)),
+        ReversiPlayerFactoryGeneralImpl.newInstance(() -> ReversiPlayers.simpleAlphaBeta(5)),
+        ReversiPlayerFactoryGeneralImpl
+            .newInstance(() -> ReversiPlayers.fixedPieceBasedAlphaBeta(5))
     ));
   }
 

@@ -3,13 +3,15 @@ package jp.gr.java_conf.saka.fw.game.com.mcts;
 import java.util.Objects;
 import java.util.Optional;
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
+import jp.gr.java_conf.saka.fw.game.base.IGame;
+import jp.gr.java_conf.saka.fw.game.base.IGameMove;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.IMctsNodeSelector;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.impl.MctsNodeSelectorUctImpl;
 
-public class MctsExecutorReuseImpl<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> extends
+public class MctsExecutorReuseImpl<GAME extends IGame<MOVE>, MOVE extends IGameMove> extends
     AbstractMctsExecutor<GAME, MOVE> {
 
-  public static <GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> MctsExecutorReuseImpl<GAME, MOVE> newDefaultInstance(
+  public static <GAME extends IGame<MOVE>, MOVE extends IGameMove> MctsExecutorReuseImpl<GAME, MOVE> newDefaultInstance(
       GamePlayerColor playerColor, int maxTotalTries,
       IMctsPlayOutExecutor<GAME, MOVE> playOutExecutor) {
     return new MctsExecutorReuseImpl<>(

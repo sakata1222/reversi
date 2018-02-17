@@ -26,7 +26,7 @@ public class ReversiBoard implements Cloneable {
     return Objects.isNull(this.pieces[y][x]);
   }
 
-  boolean isInBoard(int x, int y) {
+  public boolean isInBoard(int x, int y) {
     return 0 <= x && x < size && 0 <= y && y < size;
   }
 
@@ -34,7 +34,7 @@ public class ReversiBoard implements Cloneable {
     return isSameColor(position.getX(), position.getY(), color);
   }
 
-  boolean isSameColor(int x, int y, ReversiColor color) {
+  public boolean isSameColor(int x, int y, ReversiColor color) {
     throwExceptionIfOutOfBoard(x, y);
     return color.isSameColor(getColor(x, y));
   }

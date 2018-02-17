@@ -1,6 +1,8 @@
 package jp.gr.java_conf.saka.fw.game.com.mcts;
 
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
+import jp.gr.java_conf.saka.fw.game.base.IGame;
+import jp.gr.java_conf.saka.fw.game.base.IGameMove;
 import jp.gr.java_conf.saka.fw.game.com.mcts.IMctsPlayOutExecutor.PlayOutResult;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.IMctsExecutor;
 import jp.gr.java_conf.saka.fw.game.com.mcts.select.IMctsNodeSelector;
@@ -9,7 +11,7 @@ import org.apache.commons.lang3.mutable.MutableInt;
 /**
  * Main logic of Monte Carlo Tree Search
  */
-public abstract class AbstractMctsExecutor<GAME extends IMctsGame<MOVE>, MOVE extends IMctsMove> implements
+public abstract class AbstractMctsExecutor<GAME extends IGame<MOVE>, MOVE extends IGameMove> implements
     IMctsExecutor<GAME, MOVE> {
 
   private GamePlayerColor playerColor;
