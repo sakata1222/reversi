@@ -1,9 +1,11 @@
 package jp.gr.java_conf.saka.fw.game.com.alphaBeta;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.LongBinaryOperator;
 import java.util.stream.Collectors;
 import jp.gr.java_conf.saka.fw.game.base.GamePlayerColor;
@@ -19,6 +21,7 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
   private GamePlayerColor lastMoveColor;
   private MOVE lastMove;
   private IGameStatusEvaluateFunction<GAME> evaluateFunction;
+  private Optional<Comparator<MOVE>> candidatesComparator;
   private List<AlphaBetaGameNode<GAME, MOVE>> children;
   private Long evaluationValue = null;
   private int nodeDepth;
@@ -27,22 +30,25 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
 
   static <GAME extends IGame<MOVE>, MOVE extends IGameMove> AlphaBetaGameNode<GAME, MOVE> root(
       GamePlayerColor playerColor, GAME currentGame, GamePlayerColor lastMoveColor,
-      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction) {
+      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction,
+      Optional<Comparator<MOVE>> candidatesComparator) {
     return new AlphaBetaGameNode<>(playerColor, currentGame, lastMoveColor, lastMove,
-        evaluateFunction, 0, Long.MIN_VALUE, Long.MAX_VALUE);
+        evaluateFunction, candidatesComparator, 0, Long.MIN_VALUE, Long.MAX_VALUE);
   }
 
   static <GAME extends IGame<MOVE>, MOVE extends IGameMove> AlphaBetaGameNode<GAME, MOVE> child(
       GamePlayerColor playerColor, GAME currentGame, GamePlayerColor lastMoveColor,
-      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction, int nodeDepth,
+      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction,
+      Optional<Comparator<MOVE>> candidatesComparator, int nodeDepth,
       long alphaValue,
       long betaValue) {
     return new AlphaBetaGameNode<>(playerColor, currentGame, lastMoveColor, lastMove,
-        evaluateFunction, nodeDepth, alphaValue, betaValue);
+        evaluateFunction, candidatesComparator, nodeDepth, alphaValue, betaValue);
   }
 
   AlphaBetaGameNode(GamePlayerColor playerColor, GAME currentGame, GamePlayerColor lastMoveColor,
-      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction, int nodeDepth,
+      MOVE lastMove, IGameStatusEvaluateFunction<GAME> evaluateFunction,
+      Optional<Comparator<MOVE>> candidatesComparator, int nodeDepth,
       long alphaValue,
       long betaValue) {
     this.playerColor = playerColor;
@@ -50,6 +56,7 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
     this.lastMoveColor = lastMoveColor;
     this.lastMove = lastMove;
     this.evaluateFunction = evaluateFunction;
+    this.candidatesComparator = candidatesComparator;
     this.nodeDepth = nodeDepth;
     this.alphaValue = alphaValue;
     this.betaValue = betaValue;
@@ -70,7 +77,8 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
       GamePlayerColor oppositeColor = lastMoveColor.nextPlayer();
       List<MOVE> oppositeColorPuttableMoves = currentGame.puttableMoves(oppositeColor);
       if (CollectionUtils.isNotEmpty(oppositeColorPuttableMoves)) {
-        evaluationValue = expandChildren(oppositeColor, oppositeColorPuttableMoves, depth);
+        candidatesComparator.ifPresent(c -> oppositeColorPuttableMoves.sort(c));
+        evaluationValue = innerExpandChildren(oppositeColor, oppositeColorPuttableMoves, depth);
         return evaluationValue;
       }
     }
@@ -78,7 +86,8 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
       GamePlayerColor ownColor = lastMoveColor;
       List<MOVE> ownColorPuttableMoves = currentGame.puttableMoves(ownColor);
       if (CollectionUtils.isNotEmpty(ownColorPuttableMoves)) {
-        evaluationValue = expandChildren(ownColor, ownColorPuttableMoves, depth);
+        candidatesComparator.ifPresent(c -> ownColorPuttableMoves.sort(c));
+        evaluationValue = innerExpandChildren(ownColor, ownColorPuttableMoves, depth);
         return evaluationValue;
       }
     }
@@ -86,7 +95,7 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
     return evaluationValue;
   }
 
-  private long expandChildren(GamePlayerColor moveColor,
+  private long innerExpandChildren(GamePlayerColor moveColor,
       List<MOVE> moves, int depth) {
     children = new ArrayList<>();
     long childrenEvaluationValue = initialValue(moveColor);
@@ -96,7 +105,8 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
       GAME clonedGame = (GAME) currentGame.clone();
       clonedGame.put(move, moveColor);
       AlphaBetaGameNode<GAME, MOVE> child = child(playerColor, clonedGame,
-          moveColor, move, evaluateFunction, nodeDepth + 1, alphaValue, betaValue);
+          moveColor, move, evaluateFunction, candidatesComparator, nodeDepth + 1, alphaValue,
+          betaValue);
       children.add(child);
       // depth-first search
       long childEvaluationValue = child.expandChildren(depth - 1);
@@ -169,4 +179,14 @@ class AlphaBetaGameNode<GAME extends IGame<MOVE>, MOVE extends IGameMove> {
       return Long.MAX_VALUE;
     }
   }
+
+  long getAlphaValue() {
+    return alphaValue;
+  }
+
+  long getBetaValue() {
+    return betaValue;
+  }
+
+
 }
