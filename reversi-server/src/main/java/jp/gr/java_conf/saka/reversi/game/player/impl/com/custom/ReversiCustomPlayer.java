@@ -1,6 +1,7 @@
 package jp.gr.java_conf.saka.reversi.game.player.impl.com.custom;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import jp.gr.java_conf.saka.reversi.game.base.IReadOnlyReversiContext;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiColor;
@@ -17,12 +18,14 @@ public class ReversiCustomPlayer implements IReversiPlayer {
   private IReversiPlayer openingPlayer;
   private IReversiPlayer endGamePlayer;
 
-  public static ReversiCustomPlayer newInstance() {
+  public static ReversiCustomPlayer newInstance(int openingDepth) {
     return new ReversiCustomPlayer(//
         AlphaBetaReversiPlayer
-            .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), 7),
+            .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), Optional.empty(),
+                openingDepth),
         AlphaBetaReversiPlayer
-            .newInstance(new ReversiStatusEvaluationFunctionNumOfPieceImpl(), 12));
+            .newInstance(new ReversiStatusEvaluationFunctionNumOfPieceImpl(), Optional.empty(),
+                12));
   }
 
   ReversiCustomPlayer(IReversiPlayer openingPlayer,
@@ -33,7 +36,7 @@ public class ReversiCustomPlayer implements IReversiPlayer {
 
   @Override
   public String type() {
-    return "Custom";
+    return "Custom:" + openingPlayer.type();
   }
 
   @Override
