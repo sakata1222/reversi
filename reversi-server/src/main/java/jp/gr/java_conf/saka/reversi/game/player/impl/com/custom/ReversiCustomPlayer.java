@@ -9,7 +9,7 @@ import jp.gr.java_conf.saka.reversi.game.base.ReversiGame;
 import jp.gr.java_conf.saka.reversi.game.base.ReversiPosition;
 import jp.gr.java_conf.saka.reversi.game.player.IReversiPlayer;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.alphaBeta.AlphaBetaReversiPlayer;
-import jp.gr.java_conf.saka.reversi.game.player.impl.com.fw.eval.ReversiStatusEvaluationFunctionNumOfFixedPieceImpl;
+import jp.gr.java_conf.saka.reversi.game.player.impl.com.fw.eval.ReversiStatusEvaluationFunctionCustomImpl;
 import jp.gr.java_conf.saka.reversi.game.player.impl.com.fw.eval.ReversiStatusEvaluationFunctionNumOfPieceImpl;
 
 public class ReversiCustomPlayer implements IReversiPlayer {
@@ -17,21 +17,25 @@ public class ReversiCustomPlayer implements IReversiPlayer {
   private ReversiColor playerColor;
   private IReversiPlayer openingPlayer;
   private IReversiPlayer endGamePlayer;
+  private int endGameTurn;
 
   public static ReversiCustomPlayer newInstance(int openingDepth) {
+    int endGameTurn = 12;
     return new ReversiCustomPlayer(//
         AlphaBetaReversiPlayer
-            .newInstance(new ReversiStatusEvaluationFunctionNumOfFixedPieceImpl(), Optional.empty(),
+            .newInstance(new ReversiStatusEvaluationFunctionCustomImpl(), Optional.empty(),
                 openingDepth),
         AlphaBetaReversiPlayer
             .newInstance(new ReversiStatusEvaluationFunctionNumOfPieceImpl(), Optional.empty(),
-                12));
+                endGameTurn),
+        endGameTurn);
   }
 
   ReversiCustomPlayer(IReversiPlayer openingPlayer,
-      IReversiPlayer endGamePlayer) {
+      IReversiPlayer endGamePlayer, int endGameTurn) {
     this.openingPlayer = openingPlayer;
     this.endGamePlayer = endGamePlayer;
+    this.endGameTurn = endGameTurn;
   }
 
   @Override
@@ -57,7 +61,7 @@ public class ReversiCustomPlayer implements IReversiPlayer {
     Map<ReversiColor, AtomicInteger> count = game.countNumOfPieces();
     int total = count.values().stream().mapToInt(AtomicInteger::intValue).sum();
     int empty = game.getSize() * game.getSize() - total;
-    if (empty <= 12) {
+    if (empty <= endGameTurn) {
       return endGamePlayer;
     } else {
       return openingPlayer;
