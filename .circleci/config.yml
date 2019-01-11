@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:11-jdk
+      - image: circleci/openjdk:8-jdk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -27,23 +27,23 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "reversi-server/build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
       - run:
-        command: gradle dependencies
-        working_directory: reversi-server
+          command: gradle dependencies
+          working_directory: reversi-server
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "reversi-server/build.gradle" }}
 
       # run tests!
       - run:
-        command: gradle test
-        working_directory: reversi-server
+          command: gradle test
+          working_directory: reversi-server
 
       - store_test_results:
           path: reversi-server/build/test-results
